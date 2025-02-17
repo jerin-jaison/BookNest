@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #654321 !important;
+        }
+        
+        .search-input {
+            background-color: #f5f5f5;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            width: 400px;
+        }
+        
+        .cart-item {
+            border: 1px solid #eee;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .book-image {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        
+        .quantity-control {
+            background-color: #f5f5f5;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .quantity-btn {
+            border: none;
+            background: none;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .delete-btn {
+            color: #ff4444;
+            background: none;
+            border: none;
+            padding: 5px;
+        }
+        
+        .order-summary {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .checkout-btn {
+            background-color: #000;
+            color: #fff;
+            border-radius: 25px;
+            padding: 12px 30px;
+            width: 100%;
+            border: none;
+        }
+        
+        .top-banner {
+            background-color: #654321;
+            color: white;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        Sign up and get 20% off to your first order. 
+        <a href="#" class="text-white text-decoration-underline">Sign Up Now</a>
+        <button type="button" class="btn-close btn-close-white float-end me-3" aria-label="Close"></button>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">BookNest</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Top Selling</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">New Arrivals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Wishlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex me-3">
+                    <input class="search-input" type="search" placeholder="Search for books..." aria-label="Search">
+                </form>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="me-3"><i class="bi bi-cart"></i></a>
+                    <a href="#"><i class="bi bi-person"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+            </ol>
+        </nav>
+
+        <h1 class="mb-4">Your cart</h1>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Cart Item 1 -->
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img src="/api/placeholder/120/160" alt="Atomic Habits" class="book-image">
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-2">Atomic Habits</h5>
+                            <h6 class="text-muted">₹1200</h6>
+                        </div>
+                        <div class="col-auto">
+                            <div class="quantity-control">
+                                <button class="quantity-btn">-</button>
+                                <span>1</span>
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="delete-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 2 -->
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img src="/api/placeholder/120/160" alt="IKIGAI" class="book-image">
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-2">IKIGAI</h5>
+                            <h6 class="text-muted">₹1199</h6>
+                        </div>
+                        <div class="col-auto">
+                            <div class="quantity-control">
+                                <button class="quantity-btn">-</button>
+                                <span>1</span>
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="delete-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Item 3 -->
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <img src="/api/placeholder/120/160" alt="The 48 Laws of Power" class="book-image">
+                        </div>
+                        <div class="col">
+                            <h5 class="mb-2">The 48 Laws of Power</h5>
+                            <h6 class="text-muted">₹1599</h6>
+                        </div>
+                        <div class="col-auto">
+                            <div class="quantity-control">
+                                <button class="quantity-btn">-</button>
+                                <span>1</span>
+                                <button class="quantity-btn">+</button>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button class="delete-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="order-summary">
+                    <h4 class="mb-4">Order Summary</h4>
+                    
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span>₹3998</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Discount (-20%)</span>
+                        <span class="text-danger">-₹800</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-4">
+                        <span>Delivery Fee</span>
+                        <span>₹0</span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between mb-4">
+                        <h5>Total</h5>
+                        <h5>₹3198</h5>
+                    </div>
+                    
+                    <button class="checkout-btn">
+                        Go to Checkout →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+</body>
+</html>
