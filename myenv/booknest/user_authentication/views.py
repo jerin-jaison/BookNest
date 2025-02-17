@@ -30,6 +30,7 @@ def signup_view(request):
             messages.error(request, 'Email already exists')
             return redirect('signup_page')
         
+
         if password != confirmPassword:
             messages.error(request, 'Please enter the same password')
             return redirect('signup_page')
@@ -38,8 +39,40 @@ def signup_view(request):
         user = User.objects.create_user(username = username, first_name = first_name, last_name = last_name , email = email , password=password) 
         user.save()
         messages.success(request, 'Signup successful!')
-        return redirect('login_page')
+
+        otp = str(random.randint(100000, 999999))
+        print(otp)
+
+        # Store in session
+        request.session['reset_otp'] = otp
+        request.session['reset_email'] = email
+        
+        # Send email
+        subject = 'Your OTP for SignUp '
+        message = f'Your OTP is: {otp}'
+        from_email = 'booknestt@gmail.com'
+        send_mail  (subject, message, from_email, [email])
+        
+        messages.success(request, 'OTP sent successfully')
+        return redirect('otp_page_login')
+
     return render(request, 'signup_page.html')
+
+
+
+def otpLogin_view(request):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp')
+        
+        # Verify OTP
+        if entered_otp == request.session.get('reset_otp'):
+            request.session['otp_validated'] = True
+            messages.success(request, 'OTP verification successfull')
+            return redirect('login_page')
+        else:
+            messages.error(request, 'Invalid OTP. Please try again.')
+            
+    return render(request, 'otp_signup.html')
 
 @never_cache
 def login_view(request):

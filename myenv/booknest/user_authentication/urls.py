@@ -7,7 +7,8 @@ urlpatterns = [
     path('home/', views.home_view, name = 'home_page' ),
     path('signout/', views.signout_view, name = 'signout' ),
     path('forgetPassword/', views.forgetPassword_view, name='forgetPassword_page'),
-    path('otpSignup/', views.otpSignup_view, name='otp_page'),
+    path('otpSignup/', views.otpSignup_view, name='otp_page'),#Forget Password
+    path('otpLogin/', views.otpLogin_view, name='otp_page_login'),
     path('reEnterPassword', views.reEnterPassword_view, name='reEnterPassword_page'),
     
 ]
