@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .otp-container {
+            max-width: 400px;
+            width: 90%;
+            padding: 20px;
+        }
+        .otp-title {
+            color: #75530d;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .btn-confirm {
+            background-color: #75530d;
+            border-color: #75530d;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 25px;
+            margin-bottom: 15px;
+        }
+        .btn-confirm:hover {
+            background-color: #614408;
+            border-color: #614408;
+            color: white;
+        }
+        .btn-back {
+            border: 1px solid #75530d;
+            color: #75530d;
+            padding: 12px;
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 25px;
+            background-color: transparent;
+            margin-bottom: 15px;
+        }
+        .btn-back:hover {
+            background-color: #75530d;
+            color: white;
+        }
+        .otp-input {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .otp-input input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+        }
+        .timer {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .resend-link {
+            color: #75530d;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .resend-link.disabled {
+            color: #6c757d;
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="otp-container">
+        <h1 class="otp-title">Verify OTP</h1>
+        <p class="text-center mb-4">Enter the verification code we sent to your email</p>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" id="otpForm">
+            {% csrf_token %}
+            <div class="otp-input">
+                <input type="text" name="otp1" maxlength="1" pattern="[0-9]" required>
+                <input type="text" name="otp2" maxlength="1" pattern="[0-9]" required>
+                <input type="text" name="otp3" maxlength="1" pattern="[0-9]" required>
+                <input type="text" name="otp4" maxlength="1" pattern="[0-9]" required>
+                <input type="text name="otp5" maxlength="1" pattern="[0-9]" required>
+                <input type="text" name="otp6" maxlength="1" pattern="[0-9]" required>
+            </div>
+
+            <div class="timer" id="timer">
+                Time remaining: <span id="countdown">05:00</span>
+            </div>
+            
+            <button type="submit" class="btn btn-confirm">
+                Confirm OTP
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            </button>
+
+            <a href="{% url 'signup_page' %}" class="btn btn-back">
+                Back to Sign Up
+            </a>
+
+            <div class="text-center">
+                <a href="#" class="resend-link disabled" id="resendBtn">Resend OTP</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let timeLeft = 300;
+        const countdownEl = document.getElementById('countdown');
+        const resendBtn = document.getElementById('resendBtn');
+        const otpForm = document.getElementById('otpForm');
+        let timerInterval;
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft === 0) {
+                clearInterval(timerInterval);
+                resendBtn.classList.remove('disabled');
+            } else {
+                timeLeft--;
+            }
+        }
+
+        timerInterval = setInterval(updateTimer, 1000);
+
+        const inputs = document.querySelectorAll('.otp-input input');
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        otpForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const otp = Array.from(inputs).map(input => input.value).join('');
+            const otpInput = document.createElement('input');
+            otpInput.type = 'hidden';
+            otpInput.name = 'otp';
+            otpInput.value = otp;
+            otpForm.appendChild(otpInput);
+            otpForm.submit();
+        });
+
+        resendBtn.addEventListener('click', (e) => {
+            if (!resendBtn.classList.contains('disabled')) {
+                e.preventDefault();
+                timeLeft = 300;
+                resendBtn.classList.add('disabled');
+                clearInterval(timerInterval);
+                timerInterval = setInterval(updateTimer, 1000);
+                // Add your AJAX call or form submission for resending OTP here
+            }
+        });
+    </script>
+</body>
+</html>

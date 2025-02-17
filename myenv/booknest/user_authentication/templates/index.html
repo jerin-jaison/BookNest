@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Where stories find home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .promo-banner {
+            background-color: #8B4513;
+            font-size: 0.9rem;
+        }
+        
+        .logo {
+            color: #8B4513;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            color: #8B4513;
+        }
+
+        .hero {
+            background-color: white;
+        }
+
+        .book-card {
+            transition: transform 0.3s ease;
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-image {
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            height: 100%;
+        }
+
+        .section-divider {
+            border-top: 2px solid #eee;
+            margin: 3rem 0;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+        }
+        
+        .footer-logo {
+            color: #8B4513;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .footer-link {
+            color: #6c757d;
+            text-decoration: none;
+        }
+
+        .footer-link:hover {
+            color: #8B4513;
+        }
+
+        .payment-icons img {
+            height: 30px;
+            margin: 0 5px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem !important;
+            }
+            
+            .hero p {
+                font-size: 1rem !important;
+            }
+
+            .book-image {
+                height: 150px;
+            }
+
+            .category-card {
+                margin-bottom: 1rem;
+            }
+
+            .footer-column {
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .search-form {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Promo Banner -->
+    <div class="promo-banner text-white text-center py-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    Sign up and get 20% off to your first order. <a href="#" class="text-white text-decoration-underline">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm py-3">
+        <nav class="navbar navbar-expand-lg container-fluid container-lg">
+            <div class="container-fluid px-lg-0">
+                <a href="#" class="logo navbar-brand">BookNest</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="#">Top Selling</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">New Arrivals</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Wishlist</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    </ul>
+                    <form class="d-flex search-form">
+                        <input class="form-control" type="search" placeholder="Search for books...">       
+                    </form>
+                    <form action="{%url 'signout'%}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Signout</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero py-4 py-md-5 my-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h1 class="display-4 mb-3">Transform Your Life, One Habit at a Time!</h1>
+                    <p class="lead text-muted mb-4">Discover the power of small changes with Atomic Habits and other life-changing books. Start your journey today!</p>
+                    <a href="#" class="btn btn-dark btn-lg rounded-pill px-4">Shop Now</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="/api/placeholder/600/400" alt="Atomic Habits Book Cover" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Selling Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 mb-md-5">Top Selling</h2>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
+                <!-- Book Cards -->
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="Book 1" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">The Silent Echo</h5>
+                            <p class="text-muted mb-1">Sarah Mitchell</p>
+                            <p class="fw-bold mb-0">$19.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="Book 2" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Mountain Dreams</h5>
+                            <p class="text-muted mb-1">Michael Brown</p>
+                            <p class="fw-bold mb-0">$22.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="Book 3" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">City Lights</h5>
+                            <p class="text-muted mb-1">Emma Wilson</p>
+                            <p class="fw-bold mb-0">$24.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="Book 4" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Ocean Whispers</h5>
+                            <p class="text-muted mb-1">David Lee</p>
+                            <p class="fw-bold mb-0">$18.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="Book 5" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Desert Storm</h5>
+                            <p class="text-muted mb-1">Laura Chen</p>
+                            <p class="fw-bold mb-0">$21.99</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section class="py-5 bg-white">
+        <div class="container">
+            <h2 class="text-center mb-4 mb-md-5">New Arrivals</h2>
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-4">
+                <!-- Book Cards -->
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="New Book 1" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Morning Light</h5>
+                            <p class="text-muted mb-1">John Davis</p>
+                            <p class="fw-bold mb-0">$24.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="New Book 2" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Winter's Tale</h5>
+                            <p class="text-muted mb-1">Sophie Grant</p>
+                            <p class="fw-bold mb-0">$23.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="New Book 3" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Urban Myths</h5>
+                            <p class="text-muted mb-1">Peter King</p>
+                            <p class="fw-bold mb-0">$20.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="New Book 4" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">Forest Secrets</h5>
+                            <p class="text-muted mb-1">Rachel Green</p>
+                            <p class="fw-bold mb-0">$19.99</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="book-card shadow-sm">
+                        <img src="/api/placeholder/200/300" alt="New Book 5" class="book-image w-100">
+                        <div class="p-3">
+                            <h5 class="mb-2">River Songs</h5>
+                            <p class="text-muted mb-1">Anna White</p>
+                            <p class="fw-bold mb-0">$22.99</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 mb-md-5">Categories</h2>
+            <div class="row g-4">
+                <!-- Self Help Collection -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="category-card p-3 p-md-4 shadow-sm">
+                        <h3 class="h4 text-center mb-4">Self Help Collections</h3>
+                        <div class="row row-cols-2 g-3">
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Self Help Book 1" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Mind Power</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Self Help Book 2" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Life Goals</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Self Help Book 3" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Daily Habits</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Self Help Book 4" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Success Path</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Romance Collection -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="category-card p-3 p-md-4 shadow-sm">
+                        <h3 class="h4 text-center mb-4">Romantic Collections</h3>
+                        <div class="row row-cols-2 g-3">
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Romance Book 1" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Love Story</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Romance Book 2" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Summer Love</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Romance Book 3" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Sweet Dreams</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Romance Book 4" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Heart Beats</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sci-Fi Collection -->
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="category-card p-3 p-md-4 shadow-sm">
+                        <h3 class="h4 text-center mb-4">Sci-Fi Collections</h3>
+                        <div class="row row-cols-2 g-3">
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Sci-Fi Book 1" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Space Wars</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Sci-Fi Book 2" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Galaxy Quest</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Sci-Fi Book 3" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Time Travel</p>
+                            </div>
+                            <div class="col">
+                                <img src="/api/placeholder/150/200" alt="Sci-Fi Book 4" class="w-100 rounded">
+                                <p class="text-center mt-2 mb-0">Future World</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h3 class="footer-logo mb-3">BookNest</h3>
+                    <p class="text-muted">Where stories find home</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="footer-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="footer-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h5 class="mb-3">Company</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">About</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Features</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Works</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Career</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h5 class="mb-3">Help</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">Support</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Delivery</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Terms</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Privacy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <h5 class="mb-3">Resources</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="footer-link">Free eBooks</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Tutorials</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">Blog</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-top mt-5 pt-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start">
+                        <p class="text-muted mb-0">&copy; 2000-2025 BookNest. All rights reserved</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center justify-content-md-end payment-icons mt-3 mt-md-0">
+                            <img src="https://storage.googleapis.com/a1aa/image/CvETv1XFoc14cAELH7V0nxMX2Ilypfi6g6Q6_xdHPzs.jpg" alt="Visa" class="img-fluid">
+                            <img src="https://storage.googleapis.com/a1aa/image/PXFIRqQYpm56O8w3vEkSZlUZzocz7LWve1cX9O6P9Rs.jpg" alt="Mastercard" class="img-fluid">
+                            <img src="https://storage.googleapis.com/a1aa/image/sLigJSAzyE-Xx6s29No18urJ9gAB6iebGYousYixUfA.jpg" alt="PayPal" class="img-fluid">
+                            <img src="https://storage.googleapis.com/a1aa/image/H5sQZyRcLlTM0fHhzISB1otRbhjvmCpOVFegDSwAvvo.jpg" alt="Apple Pay" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
