@@ -10,6 +10,6 @@ urlpatterns = [
     path('otpSignup/', views.otpSignup_view, name='otp_page'),#Forget Password
     path('otpLogin/', views.otpLogin_view, name='otp_page_login'),
     path('reEnterPassword', views.reEnterPassword_view, name='reEnterPassword_page'),
-    
+    path('resend-otp/', views.resend_otp, name='resend_otp'),
 ]
 #HardPass123

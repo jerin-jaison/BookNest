@@ -182,3 +182,27 @@ def reEnterPassword_view(request):
             return redirect('reEnterPassword_page')
     
     return render(request, 're-enter_password.html')
+
+#Resend OTP
+def resend_otp(request):
+    email = request.session.get('reset_email')
+    
+    if not email:
+        messages.error(request, 'Please start the process again')
+        return redirect('forget_password')
+    
+    # Generate new OTP
+    otp = str(random.randint(100000, 999999))
+    print(otp)
+    
+    # Update session with new OTP
+    request.session['reset_otp'] = otp
+    
+    # Send email
+    subject = 'Your New OTP for Password Reset'
+    message = f'Your new OTP is: {otp}'
+    from_email = 'booknestt@gmail.com'
+    send_mail(subject, message, from_email, [email])
+    
+    messages.success(request, 'New OTP sent successfully')
+    return redirect('otp_page')

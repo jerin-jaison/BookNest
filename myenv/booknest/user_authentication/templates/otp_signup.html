@@ -17,11 +17,14 @@
             max-width: 400px;
             width: 90%;
             padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
         .otp-title {
             color: #75530d;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             font-size: 2.5rem;
         }
         .btn-confirm {
@@ -33,11 +36,13 @@
             font-size: 1rem;
             border-radius: 25px;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
         .btn-confirm:hover {
             background-color: #614408;
             border-color: #614408;
             color: white;
+            transform: translateY(-2px);
         }
         .btn-back {
             border: 1px solid #75530d;
@@ -48,6 +53,7 @@
             border-radius: 25px;
             background-color: transparent;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
         .btn-back:hover {
             background-color: #75530d;
@@ -60,23 +66,48 @@
             margin-bottom: 20px;
         }
         .otp-input input {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             text-align: center;
             font-size: 1.2rem;
-            border: 1px solid #ced4da;
+            border: 2px solid #ced4da;
             border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .otp-input input:focus {
+            border-color: #75530d;
+            box-shadow: 0 0 0 0.2rem rgba(117, 83, 13, 0.25);
+            outline: none;
+        }
+        .timer-container {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
         .timer {
             text-align: center;
             color: #6c757d;
-            margin-bottom: 20px;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .timer-icon {
+            color: #75530d;
         }
         .resend-link {
             color: #75530d;
             text-decoration: none;
             cursor: pointer;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        .resend-link:not(.disabled):hover {
+            background-color: rgba(117, 83, 13, 0.1);
         }
         .resend-link.disabled {
             color: #6c757d;
@@ -93,8 +124,9 @@
         
         {% if messages %}
             {% for message in messages %}
-            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}">
+                <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show">
                     {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             {% endfor %}
         {% endif %}
@@ -102,20 +134,26 @@
         <form method="POST" id="otpForm">
             {% csrf_token %}
             <div class="otp-input">
-                <input type="text" name="otp1" maxlength="1" pattern="[0-9]" required>
-                <input type="text" name="otp2" maxlength="1" pattern="[0-9]" required>
-                <input type="text" name="otp3" maxlength="1" pattern="[0-9]" required>
-                <input type="text" name="otp4" maxlength="1" pattern="[0-9]" required>
-                <input type="text name="otp5" maxlength="1" pattern="[0-9]" required>
-                <input type="text" name="otp6" maxlength="1" pattern="[0-9]" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                <input type="text" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
             </div>
 
-            <div class="timer" id="timer">
-                Time remaining: <span id="countdown">05:00</span>
+            <div class="timer-container">
+                <div class="timer" id="timer">
+                    <svg class="timer-icon" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                    </svg>
+                    <span id="countdown">05:00</span>
+                </div>
             </div>
             
             <button type="submit" class="btn btn-confirm">
-                Confirm OTP
+                Verify OTP
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
                 </svg>
@@ -125,14 +163,20 @@
                 Back to Sign Up
             </a>
 
-            <div class="text-center">
-                <a href="#" class="resend-link disabled" id="resendBtn">Resend OTP</a>
+            <div class="text-center mt-3">
+                <a href="{% url 'resend_otp' %}" class="resend-link disabled" id="resendBtn">
+                    <svg width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise me-1" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                    </svg>
+                    Resend OTP
+                </a>
             </div>
         </form>
     </div>
 
     <script>
-        let timeLeft = 300;
+        let timeLeft = 30; // 5 minutes in seconds
         const countdownEl = document.getElementById('countdown');
         const resendBtn = document.getElementById('resendBtn');
         const otpForm = document.getElementById('otpForm');
@@ -154,8 +198,17 @@
         timerInterval = setInterval(updateTimer, 1000);
 
         const inputs = document.querySelectorAll('.otp-input input');
+        
         inputs.forEach((input, index) => {
+            // Only allow numbers
+            input.addEventListener('keypress', (e) => {
+                if (e.keyCode < 48 || e.keyCode > 57) {
+                    e.preventDefault();
+                }
+            });
+
             input.addEventListener('input', (e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, '');
                 if (e.target.value.length === 1 && index < inputs.length - 1) {
                     inputs[index + 1].focus();
                 }
@@ -166,11 +219,32 @@
                     inputs[index - 1].focus();
                 }
             });
+
+            // Allow paste of full OTP
+            input.addEventListener('paste', (e) => {
+                e.preventDefault();
+                const paste = e.clipboardData.getData('text');
+                const numbers = paste.match(/\d/g);
+                if (numbers) {
+                    numbers.forEach((number, i) => {
+                        if (inputs[i]) {
+                            inputs[i].value = number;
+                        }
+                    });
+                    if (inputs[numbers.length - 1]) {
+                        inputs[numbers.length - 1].focus();
+                    }
+                }
+            });
         });
 
         otpForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const otp = Array.from(inputs).map(input => input.value).join('');
+            if (otp.length !== 6) {
+                alert('Please enter all 6 digits');
+                return;
+            }
             const otpInput = document.createElement('input');
             otpInput.type = 'hidden';
             otpInput.name = 'otp';
@@ -179,14 +253,12 @@
             otpForm.submit();
         });
 
-        resendBtn.addEventListener('click', (e) => {
-            if (!resendBtn.classList.contains('disabled')) {
-                e.preventDefault();
-                timeLeft = 300;
-                resendBtn.classList.add('disabled');
-                clearInterval(timerInterval);
+        resendBtn.addEventListener('click', function(e) {
+            if (!this.classList.contains('disabled')) {
+                timeLeft = 30;
+                this.classList.add('disabled');
+                updateTimer();
                 timerInterval = setInterval(updateTimer, 1000);
-                // Add your AJAX call or form submission for resending OTP here
             }
         });
     </script>
